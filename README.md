@@ -1,28 +1,28 @@
-# Pagerduty::Slapin
+# Pagerduty-Slapin
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pagerduty/slapin`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is the Pagerduty Plugin or "SLAPIN" for SLAPI Bot managed by the SLAPI Team.
 
-TODO: Delete this and the text above, and describe your gem
+## Installation & Configuration
 
-## Installation
+Download a copy of this [yaml](pager.yml) or copy and paste the below to pager.yml into the config/plugins directory of your SLAPI bot.
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'pagerduty-slapin'
+```yaml
+plugin:
+  type: container
+  managed: true # Choose True or False for SLAPI management
+  listen_type: passive # Choose passive or active.
+  messageData: true # True/False to accept the message data from who sent a message
+  config:
+    name: pager # Name of instance
+    Image: 'slapi/pagerduty' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
+    Labels: labels
+    Env: # List of environment variables
+      - API='API_KEY'
+      - SERVICE='SERVICE_ID'
+    Tty: true # Set true/false for container TTY
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install pagerduty-slapin
-
 ## Usage
-
-TODO: Write usage instructions here
 
 ## Development
 
@@ -32,10 +32,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pagerduty-slapin.
-
+Bug reports and pull requests are welcome on GitHub at <https://github.com/imperiallabs/pagerduty-slapin>.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+# -*- coding: UTF-8 -*-
+
+$:.unshift (File.dirname(__FILE__)+ "/../lib")
+require "#{File.dirname(__FILE__)}/../lib/pager"
+PAGER::PAGERCLI.start

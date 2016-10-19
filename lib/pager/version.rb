@@ -1,3 +1,3 @@
-module Pager
+module PAGER
     VERSION = "0.1.0"
 end

@@ -2,47 +2,39 @@
 # frozen_string_literal: true
 # -*- coding: UTF-8 -*-
 
-require "pagerduty/version"
 require "thor"
+require "pager/version"
 
-Dir["#{File.dirname(__FILE__)}/Pager/*.rb"].each { |item| load(item) }
+Dir["#{File.dirname(__FILE__)}/pager/commands/*.rb"].each { |item| load(item) }
 
 module PAGER
   class PAGERCLI < Thor
 
-    attr_accessor :out
-
     def initialize(*args)
       super
-      @out = $stdout
     end
 
-    desc "list", "list a incident"
-    subcommand "list", PAGER::INCIDENT.list
+    desc "list", "list items"
+    subcommand "list", PAGER::COMMANDS::List
 
-    desc "list-all", "list all incidents"
-    subcommand "list-all", PAGER::INCIDENT.list-all
+    desc "create", "create items"
+    subcommand "create", PAGER::COMMANDS::Create
 
-    desc "list-notes", "list notes for a incident"
-    subcommand "list-notes", PAGER::INCIDENT.list-notes
+    desc "delete", "delete items"
+    subcommand "delete", PAGER::COMMANDS::Delete
 
-    desc "update", "update a incident"
-    subcommand "update", PAGER::INCIDENT.update
+    desc "update", "update items"
+    subcommand "update", PAGER::COMMANDS::Update
 
-    desc "create-note", "create a incident note"
-    subcommand "create-note", PAGER::INCIDENT.create-note
+    desc "ack", "acknowledge incident"
+    subcommand "ack", PAGER::COMMANDS::Ack
 
-    desc "list", "list on calls"
-    subcommand "list", PAGER::ONCALL.list
-
-    desc "list", "list schedules"
-    subcommand "list", PAGER::SCHEDULE.list
+    desc "resolve", "resolve incident"
+    subcommand "resolve", PAGER::COMMANDS::Resolve
 
     desc "version", "Get the version of the Pager Tool"
-
     def version
-      @out.puts "pager version #{PAGER::VERSION}"
+      puts "pager version #{PAGER::VERSION}"
     end
-
   end
 end

@@ -4,6 +4,7 @@
 
 require 'httparty'
 require 'thor'
+require 'yaml'
 
 module PAGER
   module COMMANDS
@@ -11,10 +12,18 @@ module PAGER
 
       def initialize(*args)
         super
-        config_file = 'config/pager.yml'
+        if File.file?('../config/pager.local.yml')
+          config_file = '../config/pager.local.yml'
+        else
+          config_file = '../config/pager.yml'
+        end
         @config = YAML.load_file(config_file) if File.file?(config_file)
         @base_url = 'https://api.pagerduty.com'
-        @token = @config['token'] || ENV['PAGER_TOKEN']
+        if @config['token'].nil? && ENV['PAGER_TOKEN'].nil?
+          raise "You need to set config file or PAGER_TOKEN environment variable"
+        else
+          @token = @config['token'] || ENV['PAGER_TOKEN']
+        end
         @headers = {
           'Content-Type' => 'application/json',
           'Accept' => 'application/vnd.pagerduty+json;version=2',

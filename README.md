@@ -14,7 +14,7 @@ plugin:
   message_data: true # True/False to accept the message data from who sent a message
   config:
     name: pager # Name of instance
-    Image: 'slapi/pagerduty' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
+    Image: 'slapi/pagerduty-slapi' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
     Labels: labels
     Env: # List of environment variables
       - PAGER_TOKEN='API_KEY' # Your API token
@@ -33,7 +33,7 @@ plugin:
   mount_config: '/pager/config/pager.yml' # Path to config inside container, Will check if not nil and will mount if this exists into container
   config:
     name: pager # Name of instance
-    Image: 'slapi/pagerduty' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
+    Image: 'slapi/pagerduty-slapi' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
     Labels: labels
     Tty: true # Set true/false for container TTY
 # Pager Token and Service lookups

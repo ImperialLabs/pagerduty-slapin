@@ -28,7 +28,7 @@ module PAGER
         if @config['pager']['token'].nil? && ENV['PAGER_TOKEN'].nil?
           raise "You need to set config file or PAGER_TOKEN environment variable"
         else
-          @token = @config['token'] || ENV['PAGER_TOKEN']
+          @token = @config['pager']['token'] || ENV['PAGER_TOKEN']
         end
         @headers = {
           'Content-Type' => 'application/json',
@@ -103,9 +103,9 @@ module PAGER
         pp response
       end
 
-      # Lists all active incidents
+      # Lists all incidents regardless of status
       # TODO: Call and print appropriate incident data
-      desc "incidents!", "list all incidents including resolved"
+      desc "incidents", "list all incidents"
       def incidents!
         response = HTTParty.get(@incident_url, headers: @headers)
         pp response

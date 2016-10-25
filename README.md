@@ -11,7 +11,7 @@ plugin:
   type: container
   managed: true # Choose True or False for SLAPI management
   listen_type: passive # Choose passive or active.
-  messageData: true # True/False to accept the message data from who sent a message
+  message_data: true # True/False to accept the message data from who sent a message
   config:
     name: pager # Name of instance
     Image: 'slapi/pagerduty' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
@@ -29,8 +29,8 @@ plugin:
   type: container
   managed: true # Choose True or False for SLAPI management
   listen_type: passive # Choose passive or active.
-  messageData: true # True/False to accept the message data from who sent a message
-  mount_config: true # True/False to mount config to container
+  message_data: true # True/False to accept the message data from who sent a message
+  mount_config: '/pager/config/pager.yml' # Path to config inside container, Will check if not nil and will mount if this exists into container
   config:
     name: pager # Name of instance
     Image: 'slapi/pagerduty' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo

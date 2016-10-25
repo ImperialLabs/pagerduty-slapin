@@ -18,10 +18,10 @@ module PAGER
       # Will raise error if Token is not available
       def initialize(*args)
         super
-        if File.file?('config/pager.local.yml')
-          config_file = 'config/pager.local.yml'
+        if File.file?(File.join(__dir__, '../../../config/pager.local.yml'))
+          config_file = "#{File.join(__dir__, '../../../config/pager.local.yml')}"
         else
-          config_file = 'config/pager.yml'
+          config_file = "#{File.join(__dir__, '../../../config/pager.yml')}"
         end
         @config = YAML.load_file(config_file) if File.file?(config_file)
         @base_url = 'https://api.pagerduty.com'
@@ -101,14 +101,23 @@ module PAGER
       desc "incidents", "list all incidents"
       def incidents
         response = HTTParty.get(@incident_url, headers: @headers)
-        puts response
+        pp response
       end
+
+      # Lists all active incidents
+      # TODO: Call and print appropriate incident data
+      desc "incidents!", "list all incidents including resolved"
+      def incidents!
+        response = HTTParty.get(@incident_url, headers: @headers)
+        pp response
+      end
+
       # List a specific incident
       # TODO: Call and print specific incident and data
       desc "incident", "list specific incident"
       def incident(id)
         response = HTTParty.get(@incident_url, headers: @headers)
-        puts response
+        pp response
       end
 
     end

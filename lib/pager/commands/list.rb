@@ -25,7 +25,7 @@ module PAGER
         end
         @config = YAML.load_file(config_file) if File.file?(config_file)
         @base_url = 'https://api.pagerduty.com'
-        if @config['token'].nil? && ENV['PAGER_TOKEN'].nil?
+        if @config['pager']['token'].nil? && ENV['PAGER_TOKEN'].nil?
           raise "You need to set config file or PAGER_TOKEN environment variable"
         else
           @token = @config['token'] || ENV['PAGER_TOKEN']
@@ -41,7 +41,6 @@ module PAGER
       end
 
       # List all on calls
-      # TODO: Sort through on-calls payload and "pretty print"
       desc "on_calls", "list on calls"
       def on_calls
         response = HTTParty.get(@on_call_url, headers: @headers)
@@ -49,6 +48,7 @@ module PAGER
           if oncall['start'].nil? && oncall['end'].nil?
              # Do nothing, not on call
              # TODO: Log?
+             # TODO: change to unless?
           else
             start_time = DateTime.parse(oncall['start']).strftime("%d-%b-%Y %I:%M%P")
             end_time = DateTime.parse(oncall['end']).strftime("%d-%b-%Y %I:%M%P %Z")
@@ -62,7 +62,6 @@ module PAGER
       end
 
       # List all schedules
-      # TODO: Validate data being printed is all that's needed
       desc "schedules", "list schedules"
       def schedules
         response = HTTParty.get(@schedule_url, headers: @headers)
@@ -71,7 +70,7 @@ module PAGER
         end
       end
 
-      # TODO: Need to find out how to evaluate appropriately, i.e. print the schedule requested
+      # Lists a specific schedule's info and will indicate who's on call for that schedule
       desc "schedule", "list a specific schedule"
       def schedule(id)
         get_schedule = HTTParty.get("#{@schedule_url}/#{id}", headers: @headers)

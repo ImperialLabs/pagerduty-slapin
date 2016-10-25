@@ -17,9 +17,29 @@ plugin:
     Image: 'slapi/pagerduty' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
     Labels: labels
     Env: # List of environment variables
-      - API='API_KEY'
-      - SERVICE='SERVICE_ID'
+      - PAGER_TOKEN='API_KEY' # Your API token
+      - PAGER_SERVICE='SERVICE_ID' # Service(s) you wish to filter buy (Coming Soon)
     Tty: true # Set true/false for container TTY
+```
+
+or if you want to avoid using container Environment variables
+
+```yaml
+plugin:
+  type: container
+  managed: true # Choose True or False for SLAPI management
+  listen_type: passive # Choose passive or active.
+  messageData: true # True/False to accept the message data from who sent a message
+  mount_config: true # True/False to mount config to container
+  config:
+    name: pager # Name of instance
+    Image: 'slapi/pagerduty' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
+    Labels: labels
+    Tty: true # Set true/false for container TTY
+# Pager Token and Service lookups
+pager:
+  token: adfiaujioj3489 # Your API token
+  service: a9u30rj # Service(s) you wish to filter buy (Coming Soon)
 ```
 
 ## Usage

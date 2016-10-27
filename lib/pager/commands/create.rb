@@ -25,12 +25,6 @@ module PAGER
         @payload = {}
       end
 
-      desc "incident", "create an incident"
-      def incident
-        response = HTTParty.get(@incident_url, headers: @headers)
-        puts response
-      end
-
       desc "override", "create an override"
       def override
         response = HTTParty.get(@incident_url, headers: @headers)

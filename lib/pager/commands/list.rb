@@ -105,7 +105,7 @@ module PAGER
 
       # Lists all incidents regardless of status
       # TODO: Call and print appropriate incident data
-      desc "incidents", "list all incidents"
+      desc "incident!", "list all incidents regardless of status"
       def incidents!
         response = HTTParty.get(@incident_url, headers: @headers)
         pp response

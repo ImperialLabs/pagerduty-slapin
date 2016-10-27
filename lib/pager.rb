@@ -26,6 +26,9 @@ module PAGER
     desc "update", "update items"
     subcommand "update", PAGER::COMMANDS::Update
 
+    desc "trigger", "trigger incident"
+    subcommand "trigger", PAGER::COMMANDS::Trigger
+
     desc "ack", "acknowledge incident"
     subcommand "ack", PAGER::COMMANDS::Ack
 

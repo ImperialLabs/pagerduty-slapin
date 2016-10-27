@@ -14,8 +14,7 @@ plugin:
   message_data: true # True/False to accept the message data from who sent a message
   config:
     name: pager # Name of instance
-    Image: 'slapi/pagerduty-slapi' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
-    Labels: labels
+    Image: 'slapi/pagerduty-slapi' # Enter user/repo (or :tag is an option as well) (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
     Env: # List of environment variables
       - PAGER_TOKEN='API_KEY' # Your API token
       - PAGER_SERVICE='SERVICE_ID' # Service(s) you wish to filter buy (Coming Soon)
@@ -33,13 +32,12 @@ plugin:
   mount_config: '/pager/config/pager.yml' # Path to config inside container, Will check if not nil and will mount if this exists into container
   config:
     name: pager # Name of instance
-    Image: 'slapi/pagerduty-slapi' # Enter user/repo (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
-    Labels: labels
+    Image: 'slapi/pagerduty-slapi' # Enter user/repo (or :tag is an option as well) (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
     Tty: true # Set true/false for container TTY
 # Pager Token and Service lookups
 pager:
   token: adfiaujioj3489 # Your API token
-  service: a9u30rj # Service(s) you wish to filter buy (Coming Soon)
+  service: a9u30rj # Service to trigger via bot
 ```
 
 ## Usage

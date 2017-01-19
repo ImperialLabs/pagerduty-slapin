@@ -2,6 +2,16 @@ FROM slapi/ruby:latest
 
 MAINTAINER SLAPI Devs
 
+LABEL "ack"="acknowledge incident"
+LABEL "create"="create items"
+LABEL "delete"="delete items"
+LABEL "help"="Describe available commands or one specific command"
+LABEL "list"="list items"
+LABEL "resolve"="resolve incident"
+LABEL "trigger"="trigger incident"
+LABEL "update"="update items"
+LABEL "version"="Get the version of the Pager Tool"
+
 RUN mkdir -p /pager && chmod 777 /pager
 WORKDIR /pager
 

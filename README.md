@@ -9,16 +9,12 @@ Download a copy of this [yaml](pager.yml) or copy and paste the below to pager.y
 ```yaml
 plugin:
   type: container
-  managed: true # Choose True or False for SLAPI management
-  listen_type: passive # Choose passive or active.
-  message_data: true # True/False to accept the message data from who sent a message
   config:
     name: pager # Name of instance
-    Image: 'slapi/pagerduty-slapi' # Enter user/repo (or :tag is an option as well) (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
+    Image: 'slapi/slapin-pagerduty' # Enter user/repo (or :tag is an option as well) (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
     Env: # List of environment variables
       - PAGER_TOKEN='API_KEY' # Your API token
       - PAGER_SERVICE='SERVICE_ID' # Service(s) you wish to filter buy (Coming Soon)
-    Tty: true # Set true/false for container TTY
 ```
 
 or if you want to avoid using container Environment variables
@@ -26,14 +22,9 @@ or if you want to avoid using container Environment variables
 ```yaml
 plugin:
   type: container
-  managed: true # Choose True or False for SLAPI management
-  listen_type: passive # Choose passive or active.
-  message_data: true # True/False to accept the message data from who sent a message
   mount_config: '/pager/config/pager.yml' # Path to config inside container, Will check if not nil and will mount if this exists into container
   config:
-    name: pager # Name of instance
-    Image: 'slapi/pagerduty-slapi' # Enter user/repo (or :tag is an option as well) (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
-    Tty: true # Set true/false for container TTY
+    Image: 'slapi/slapin-pagerduty' # Enter user/repo (or :tag is an option as well) (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
 # Pager Token and Service lookups
 pager:
   token: adfiaujioj3489 # Your API token

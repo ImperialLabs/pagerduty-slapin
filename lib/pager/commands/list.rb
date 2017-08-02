@@ -35,7 +35,7 @@ module PAGER
           'Authorization' => "Token token=#{@token}"
         }
         @incident_url = @base_url + '/incidents'
-        @on_call_url = @base_url + '/oncalls'
+        @on_call_url = @base_url + '/oncalls?time_zone=UTC'
         @schedule_url = @base_url + '/schedules'
       end
 
@@ -49,13 +49,15 @@ module PAGER
              # TODO: Log?
              # TODO: change to unless?
           else
-            start_time = DateTime.parse(oncall['start']).strftime('%d-%b-%Y %I:%M%P')
-            end_time = DateTime.parse(oncall['end']).strftime('%d-%b-%Y %I:%M%P %Z')
-            puts "On Call For Schedule: #{oncall['schedule']['summary']} (#{oncall['schedule']['id']})"
-            puts "* Policy Summary: #{oncall['escalation_policy']['summary']}"
-            puts '* User:'
-            puts "  * #{oncall['user']['summary']}"
-            puts "    * On Call Period: #{start_time} - #{end_time}"
+            unless oncall.['end'].empty?
+              start_time = DateTime.parse(oncall['start']).strftime('%d-%b-%Y %I:%M%P')
+              end_time = DateTime.parse(oncall['end']).strftime('%d-%b-%Y %I:%M%P %Z')
+              puts "On Call For Schedule: #{oncall['schedule']['summary']} (#{oncall['schedule']['id']})"
+              puts "* Policy Summary: #{oncall['escalation_policy']['summary']}"
+              puts '* User:'
+              puts "  * #{oncall['user']['summary']}"
+              puts "    * On Call Period: #{start_time} - #{end_time}"
+            end
           end
         end
       end

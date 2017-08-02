@@ -49,7 +49,9 @@ module PAGER
              # TODO: Log?
              # TODO: change to unless?
           else
-            unless oncall.['end'].empty?
+            if oncall.['end'].nil?
+              puts "There is no current end to the oncall schedule"
+            else
               start_time = DateTime.parse(oncall['start']).strftime('%d-%b-%Y %I:%M%P')
               end_time = DateTime.parse(oncall['end']).strftime('%d-%b-%Y %I:%M%P %Z')
               puts "On Call For Schedule: #{oncall['schedule']['summary']} (#{oncall['schedule']['id']})"

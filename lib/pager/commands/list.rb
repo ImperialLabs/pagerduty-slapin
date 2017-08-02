@@ -11,7 +11,6 @@ require 'pp'
 module PAGER
   module COMMANDS
     class List < Thor
-
       # Initialize config file
       # Evaluates all possible config locations
       # Build out base urls
@@ -19,29 +18,29 @@ module PAGER
       def initialize(*args)
         super
         if File.file?(File.join(__dir__, '../../../config/pager.local.yml'))
-          config_file = "#{File.join(__dir__, '../../../config/pager.local.yml')}"
+          config_file = File.join(__dir__, '../../../config/pager.local.yml')
+        elsif File.file?(File.join(__dir__, '../../../config/pager.yml'))
+          config_file = File.join(__dir__, '../../../config/pager.yml')
         else
-          config_file = "#{File.join(__dir__, '../../../config/pager.yml')}"
+          config_file = nil
         end
-        @config = YAML.load_file(config_file) if File.file?(config_file)
+
+        @config = file_check(config_file) ? YAML.load_file(config_file) : {}
         @base_url = 'https://api.pagerduty.com'
-        if @config['pager']['token'].nil? && ENV['PAGER_TOKEN'].nil?
-          raise "You need to set config file or PAGER_TOKEN environment variable"
-        else
-          @token = @config['pager']['token'] || ENV['PAGER_TOKEN']
-        end
+        raise 'You need to set config file or PAGER_TOKEN environment variable' if @config.dig('pager', 'token') && ENV['PAGER_TOKEN'].nil?
+        @token = @config.dig('pager', 'token') ? @config['pager']['token'] : ENV['PAGER_TOKEN']
         @headers = {
           'Content-Type' => 'application/json',
           'Accept' => 'application/vnd.pagerduty+json;version=2',
           'Authorization' => "Token token=#{@token}"
         }
-        @incident_url = @base_url + "/incidents"
-        @on_call_url = @base_url + "/oncalls"
-        @schedule_url = @base_url + "/schedules"
+        @incident_url = @base_url + '/incidents'
+        @on_call_url = @base_url + '/oncalls'
+        @schedule_url = @base_url + '/schedules'
       end
 
       # List all on calls
-      desc "on_calls", "list on calls"
+      desc 'on_calls', 'list on calls'
       def on_calls
         response = HTTParty.get(@on_call_url, headers: @headers)
         response['oncalls'].each do |oncall|
@@ -50,11 +49,11 @@ module PAGER
              # TODO: Log?
              # TODO: change to unless?
           else
-            start_time = DateTime.parse(oncall['start']).strftime("%d-%b-%Y %I:%M%P")
-            end_time = DateTime.parse(oncall['end']).strftime("%d-%b-%Y %I:%M%P %Z")
+            start_time = DateTime.parse(oncall['start']).strftime('%d-%b-%Y %I:%M%P')
+            end_time = DateTime.parse(oncall['end']).strftime('%d-%b-%Y %I:%M%P %Z')
             puts "On Call For Schedule: #{oncall['schedule']['summary']} (#{oncall['schedule']['id']})"
             puts "* Policy Summary: #{oncall['escalation_policy']['summary']}"
-            puts "* User:"
+            puts '* User:'
             puts "  * #{oncall['user']['summary']}"
             puts "    * On Call Period: #{start_time} - #{end_time}"
           end
@@ -62,7 +61,7 @@ module PAGER
       end
 
       # List all schedules
-      desc "schedules", "list schedules"
+      desc 'schedules', 'list schedules'
       def schedules
         response = HTTParty.get(@schedule_url, headers: @headers)
         response['schedules'].each do |schedule|
@@ -71,7 +70,7 @@ module PAGER
       end
 
       # Lists a specific schedule's info and will indicate who's on call for that schedule
-      desc "schedule", "list a specific schedule"
+      desc 'schedule', 'list a specific schedule'
       def schedule(id)
         get_schedule = HTTParty.get("#{@schedule_url}/#{id}", headers: @headers)
         get_oncall = HTTParty.get(@on_call_url, headers: @headers)
@@ -79,13 +78,13 @@ module PAGER
           get_oncall['oncalls'].each do |oncall|
             unless oncall['start'].nil? && oncall['end'].nil?
               @on_call_user = oncall['user']['summary'] if oncall['escalation_policy']['id'] == policy['id']
-              @end_time = DateTime.parse(oncall['end']).strftime("%d-%b-%Y %I:%M%P %Z")
+              @end_time = DateTime.parse(oncall['end']).strftime('%d-%b-%Y %I:%M%P %Z')
             end
           end
         end
         puts "Schedule: #{get_schedule['schedule']['name']} (#{get_schedule['schedule']['id']})"
         puts "URL: #{get_schedule['schedule']['html_url']}"
-        puts "* Users:"
+        puts '* Users:'
         get_schedule['schedule']['users'].each do |user|
           if user['summary'] == @on_call_user
             puts "  * #{user['summary']} (On-Call until #{@end_time})"
@@ -97,7 +96,7 @@ module PAGER
 
       # Lists all active incidents
       # TODO: Call and print appropriate incident data
-      desc "incidents", "list all incidents"
+      desc 'incidents', 'list all incidents'
       def incidents
         response = HTTParty.get(@incident_url, headers: @headers)
         pp response
@@ -105,7 +104,7 @@ module PAGER
 
       # Lists all incidents regardless of status
       # TODO: Call and print appropriate incident data
-      desc "incident!", "list all incidents regardless of status"
+      desc 'incident!', 'list all incidents regardless of status'
       def incidents!
         response = HTTParty.get(@incident_url, headers: @headers)
         pp response
@@ -113,12 +112,21 @@ module PAGER
 
       # List a specific incident
       # TODO: Call and print specific incident and data
-      desc "incident", "list specific incident"
+      desc 'incident', 'list specific incident'
       def incident(id)
         response = HTTParty.get(@incident_url, headers: @headers)
         pp response
       end
 
+      private
+
+      def file_check(file)
+        if file.nil?
+          false
+        else
+          File.File?(file)
+        end
+      end
     end
   end
 end

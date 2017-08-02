@@ -21,7 +21,7 @@ COPY . ./
 # Install dependencies
 RUN apk update &&\
     apk add ruby-dev &&\
-    gem install io-console -v 0.4.5 &&\
+    gem install io-console &&\
     gem install bundler &&\
     bundle install &&\
     rm /var/cache/apk/*

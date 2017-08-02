@@ -20,18 +20,18 @@ module PAGER
           'Accept' => 'application/vnd.pagerduty+json;version=2',
           'Authorization' => "Token token=#{@token}"
         }
-        @incident_url = @base_url + "/incidents"
-        @on_call_url = @base_url + "/oncalls"
+        @incident_url = @base_url + '/incidents'
+        @on_call_url = @base_url + '/oncalls'
         @payload = {}
       end
 
-      desc "incident", "update an incident"
+      desc 'incident', 'update an incident'
       def incident
         response = HTTParty.get(@incident_url, @headers)
         puts response
       end
 
-      desc "maintenance", "update a maintenance window"
+      desc 'maintenance', 'update a maintenance window'
       def maintenance(id)
         response = HTTParty.get(@incident_url, @headers)
         puts response

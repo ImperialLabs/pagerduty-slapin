@@ -48,14 +48,22 @@ module PAGER
              # Do nothing, not on call
              # TODO: Log?
              # TODO: change to unless?
+          elsif oncall['end'].nil?
+             start_time = DateTime.parse(oncall['start']).strftime('%d-%b-%Y %I:%M%P')
+             end_time = "ETERNITY"
+              puts "On Call For Schedule: #{oncall['schedule']['summary']} (#{oncall['schedule']['id']})"
+              puts "* Policy Summary: #{oncall['escalation_policy']['summary']}"
+              puts '* User:'
+              puts "  * #{oncall['user']['summary']}"
+              puts "    * On Call Period: #{start_time} - #{end_time}"
           else
-              # start_time = DateTime.parse(oncall['start']).strftime('%d-%b-%Y %I:%M%P')
-              # end_time = DateTime.parse(oncall['end']).strftime('%d-%b-%Y %I:%M%P %Z')
-              # puts "On Call For Schedule: #{oncall['schedule']['summary']} (#{oncall['schedule']['id']})"
-              # puts "* Policy Summary: #{oncall['escalation_policy']['summary']}"
-              # puts '* User:'
-              # puts "  * #{oncall['user']['summary']}"
-              # puts "    * On Call Period: #{start_time} - #{end_time}"
+              start_time = DateTime.parse(oncall['start']).strftime('%d-%b-%Y %I:%M%P')
+              end_time = DateTime.parse(oncall['end']).strftime('%d-%b-%Y %I:%M%P %Z')
+              puts "On Call For Schedule: #{oncall['schedule']['summary']} (#{oncall['schedule']['id']})"
+              puts "* Policy Summary: #{oncall['escalation_policy']['summary']}"
+              puts '* User:'
+              puts "  * #{oncall['user']['summary']}"
+              puts "    * On Call Period: #{start_time} - #{end_time}"
           end
         end
       end

@@ -44,7 +44,6 @@ module PAGER
       def on_calls
         response = HTTParty.get(@on_call_url, headers: @headers)
         response['oncalls'].each do |oncall|
-          puts oncall['start']
           if oncall['start'].nil? && oncall['end'].nil?
              # Do nothing, not on call
              # TODO: Log?

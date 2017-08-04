@@ -44,14 +44,12 @@ module PAGER
       def on_calls
         response = HTTParty.get(@on_call_url, headers: @headers)
         response['oncalls'].each do |oncall|
+          puts oncall['start']
           if oncall['start'].nil? && oncall['end'].nil?
              # Do nothing, not on call
              # TODO: Log?
              # TODO: change to unless?
           else
-            if oncall.['end'].nil?
-              puts "There is no current end to the oncall schedule"
-            else
               start_time = DateTime.parse(oncall['start']).strftime('%d-%b-%Y %I:%M%P')
               end_time = DateTime.parse(oncall['end']).strftime('%d-%b-%Y %I:%M%P %Z')
               puts "On Call For Schedule: #{oncall['schedule']['summary']} (#{oncall['schedule']['id']})"
@@ -59,7 +57,6 @@ module PAGER
               puts '* User:'
               puts "  * #{oncall['user']['summary']}"
               puts "    * On Call Period: #{start_time} - #{end_time}"
-            end
           end
         end
       end

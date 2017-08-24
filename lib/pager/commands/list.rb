@@ -37,6 +37,21 @@ module PAGER
         @incident_url = @base_url + '/incidents'
         @on_call_url = @base_url + '/oncalls'
         @schedule_url = @base_url + '/schedules'
+        @services_url = @base_url + '/services'
+      end
+
+      # List all services
+      desc 'services', 'list all services'
+      def services
+        response = HTTParty.get(@services_url, headers: @headers)
+          puts "The following is a list of all services under your account"
+        response['services'].each do |services|
+          puts "Service Name: #{services['name']}"
+          puts "Service Description: #{services['description']}"
+          puts "Service Status: #{services['status']}"
+          puts "* Team Name: #{services['teams'][0]['type']}"
+          puts "_________________________________________________"
+        end
       end
 
       # List all on calls
@@ -132,7 +147,7 @@ module PAGER
         if file.nil?
           false
         else
-          File.File?(file)
+          File.file?(file)
         end
       end
     end

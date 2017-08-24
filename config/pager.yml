@@ -1,0 +1,7 @@
+plugin:
+  type: container
+  config:
+    name: pager # Name of instance
+    Image: 'slapi/slapin-pagerduty' # Enter user/repo (or :tag is an option as well) (standard docker pull procedures), you can also pull from a private repo via domain.com/repo
+    Env: # List of environment variables
+      - PAGER_TOKEN='wacCTrKFjF3nesrYxagz' # Your API token

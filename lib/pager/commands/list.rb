@@ -61,7 +61,7 @@ module PAGER
       def services
         response = HTTParty.get(@services_url, headers: @headers)
           #puts "The following is a list of all services under your account"
-          attachment(fallback, "title test", "text sample")
+          attachment("fallback", "title test", "text sample")
         response['services'].each do |services|
           puts "Service Name: #{services['name']}"
           puts "Service Description: #{services['description']}"

@@ -40,11 +40,28 @@ module PAGER
         @services_url = @base_url + '/services'
       end
 
+      def attachment(fallback, title, text)
+        PARTY.post(
+          '/v1/attachment',
+          body: {
+            'channel' => @channel,
+            'attachments' =>
+              {
+                'fallback' => fallback,
+                'title' => title,
+                'text' => text
+              }
+          },
+          headers: @headers
+        )
+      end
+
       # List all services
       desc 'services', 'list all services'
       def services
         response = HTTParty.get(@services_url, headers: @headers)
           #puts "The following is a list of all services under your account"
+          attachment(fallback, "title test", "text sample")
         response['services'].each do |services|
           puts "Service Name: #{services['name']}"
           puts "Service Description: #{services['description']}"

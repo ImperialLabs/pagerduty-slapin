@@ -44,7 +44,7 @@ module PAGER
       desc 'services', 'list all services'
       def services
         response = HTTParty.get(@services_url, headers: @headers)
-          puts "The following is a list of all services under your account"
+          #puts "The following is a list of all services under your account"
         response['services'].each do |services|
           puts "Service Name: #{services['name']}"
           puts "Service Description: #{services['description']}"

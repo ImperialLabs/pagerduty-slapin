@@ -40,7 +40,7 @@ module PAGER
         @services_url = @base_url + '/services'
       end
 
-      def attachment(fallback, title, text)
+      def post_message(fallback, title, text)
         PARTY.post(
           '/v1/attachment',
           body: {
